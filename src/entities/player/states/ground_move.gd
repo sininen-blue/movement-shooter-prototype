@@ -18,7 +18,8 @@ func _ready() -> void:
 
 
 func enter() -> void:
-	pass
+	player.can_wallrun_left = true
+	player.can_wallrun_right = true
 
 
 func exit() -> void:

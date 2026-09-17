@@ -10,6 +10,7 @@ extends State
 @export var max_strafe_angle: float = 180.0
 @export var air_strafe_mod: float = 1.0
 
+
 var horizontal_vel: Vector2
 var horizontal_wish: Vector2
 var diff: float
@@ -35,12 +36,17 @@ func update(_delta: float) -> void:
 
 
 func physics_update(delta: float) -> void:
-	player.velocity += player.get_gravity() * player.mass * delta
-	player.wish_vel = player.direction * speed
-
-
 	if player.is_on_floor():
 		state_machine.change_state(ground_move)
+	if player.is_on_wall_only():
+		player.update_wall_collisions()
+		if player.left_wall and player.can_wallrun_left:
+			state_machine.change_state(wallrun)
+		if player.right_wall and player.can_wallrun_right:
+			state_machine.change_state(wallrun)
+
+	player.velocity += player.get_gravity() * player.mass * delta
+	player.wish_vel = player.direction * speed
 
 	# air strafe
 	horizontal_vel = Vector2(player.velocity.x, player.velocity.z)

@@ -29,6 +29,8 @@ height = 1.5
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14342627, 0), 0.0, 0.0, 0, 0, Vector2(0.30278882, 1), 0.0, 0.0, 0, 0, Vector2(0.45418325, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 5
 
+[sub_resource type="Curve" id="Curve_eb65w"]
+
 [node name="Player" type="CharacterBody3D" unique_id=184546133]
 collision_layer = 2
 floor_snap_length = 0.5
@@ -87,9 +89,11 @@ metadata/_custom_type_script = "uid://bob0m48d0nri1"
 [node name="SlideBoostCooldown" type="Timer" parent="StateMachine/Slide" unique_id=2134558373]
 one_shot = true
 
-[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364]
+[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364 node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 script = ExtResource("7_kc3pt")
+player = NodePath("../..")
+wall_run_curve = SubResource("Curve_eb65w")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=911802380]
@@ -167,6 +171,34 @@ layout_mode = 2
 script = ExtResource("8_n7e5a")
 target = NodePath("../../../../StateMachine/AirMove")
 property = "sample_point"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
+
+[node name="LeftWall" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=222417424 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "left_wall"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
+
+[node name="CanLeft" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=296908063 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "can_wallrun_left"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
+
+[node name="RightWall" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1951230741 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "right_wall"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
+
+[node name="CanRight" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1427414734 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "can_wallrun_right"
 metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
 [node name="CoyoteTimer" type="Timer" parent="." unique_id=2084729048]

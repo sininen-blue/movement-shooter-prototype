@@ -4,57 +4,56 @@ extends State
 @export var wall_run_curve: Curve
 @export var speed = 40
 @export var accel = 2
-@export var max_duration = 1.75
+@export var duration = 1.75
 
-var time = 0
-var wall_normal
-var wall_x
-var player_direction
-var wall_dir
 
-# TODO: need minimum distance from floor
+var left_wall_normal: Vector3
+var right_wall_normal: Vector3
+var start_vel: Vector3
+var new_dir: Vector3
+var time: float = 0
 
 @onready var air_move: State = %AirMove
 @onready var ground_move: State = %GroundMove
 
 
 func enter() -> void:
-	if player.global_position.y > player.highest_run:
-		player.highest_run = player.global_position.y
-	
-	
-	time = 0
-	wall_x = Vector3(wall_normal.x, 0, wall_normal.z).normalized()
-	var vel_x: Vector3 = Vector3(player.velocity.x, 0, player.velocity.z).normalized()
-	
-	var v_along_normal: Vector3 = vel_x.dot(wall_x) * wall_x
-	var v_tangent: Vector3 = player.velocity - v_along_normal
-	player_direction = v_tangent.normalized()
+	start_vel = player.velocity
+
+	if player.left_wall and player.can_wallrun_left:
+		player.can_wallrun_right = true
+		player.can_wallrun_left = false
+
+	if player.right_wall and player.can_wallrun_right:
+		player.can_wallrun_right = false
+		player.can_wallrun_left = true
 
 
 func exit() -> void:
-	pass
+	time = 0
 
-## TODO: cooldown on each direction cast
+
 func update(delta: float) -> void:
 	time += 1 * delta
 	
-	if time > max_duration:
+	if time > duration:
 		state_machine.change_state(air_move)
 
 
 func physics_update(delta: float) -> void:
-	player.velocity.y = wall_run_curve.sample(time) * 10
-	
-	player.velocity += -wall_x * 2
-	
-	player.wish_vel = player_direction * speed
-	
-	player.velocity.x = player.wish_vel.x + (player.velocity.x - player.wish_vel.x) * exp(-accel * delta)
-	player.velocity.z = player.wish_vel.z + (player.velocity.z - player.wish_vel.z) * exp(-accel * delta)
+	left_wall_normal = player.get_wall_normal().rotated(Vector3.UP, PI/2)
+	right_wall_normal = player.get_wall_normal().rotated(Vector3.UP, -PI/2)
 
+	if left_wall_normal.angle_to(start_vel) < right_wall_normal.angle_to(start_vel):
+		new_dir = left_wall_normal
+	else:
+		new_dir = right_wall_normal
+	
+	if new_dir:
+		player.velocity = new_dir.normalized() * clamp(start_vel.length(), speed/2.0, speed * 2)
+	player.velocity -= player.get_wall_normal() * 2
 
-func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("move_jump"):
-		player.velocity += (wall_normal * 30) + Vector3(0, 10, 0)
+	if time <= duration and player.is_on_wall_only():
+		time += 1 * delta
+	else:
 		state_machine.change_state(air_move)

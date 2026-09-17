@@ -23,6 +23,11 @@ var jump_queued: bool = false
 var can_crouch: bool = false
 var crouch_queued: bool = false
 
+var left_wall: bool = false
+var right_wall: bool = false
+var can_wallrun_left: bool = true
+var can_wallrun_right: bool = true
+
 
 @onready var crouch_queue_timeout: Timer = %CrouchQueueTimeout
 @onready var jump_queue_timeout: Timer = %JumpQueueTimeout
@@ -80,8 +85,21 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 
+func update_wall_collisions() -> void:
+	var last_col: Vector3 = get_last_slide_collision().get_position()
+	var local_col: Vector3 = head.to_local(last_col)
+	
+	if local_col.x > 0:
+		left_wall = false
+		right_wall = true
+	else:
+		left_wall = true
+		right_wall = false
+
+
 func get_horizontal_speed() -> float:
 	return Vector2(velocity.x, velocity.y).length()
+
 
 func get_horizontal_wish_speed() -> float:
 	return Vector2(wish_vel.x, wish_vel.y).length()
