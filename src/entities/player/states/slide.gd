@@ -21,7 +21,6 @@ var floor_normal: Vector3 = Vector3()
 
 
 func enter() -> void:
-	
 	head.position.y = 0.25
 	time = 0
 	player.velocity += player.velocity.normalized() * slide_boost

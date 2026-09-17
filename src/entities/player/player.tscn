@@ -1,14 +1,13 @@
 [gd_scene format=3 uid="uid://ngxad4n5idt7"]
 
 [ext_resource type="Script" uid="uid://ddhokcu0tayyf" path="res://src/entities/player/player.gd" id="1_4m8ck"]
-[ext_resource type="Script" uid="uid://drqmruismu7u3" path="res://src/entities/player/wall_raycasts.gd" id="2_tk761"]
 [ext_resource type="Texture2D" uid="uid://cerit24m01kmm" path="res://assets/prototype_textures/orange/texture_09.png" id="2_vt6n5"]
 [ext_resource type="Script" uid="uid://bv75bnv6c4ou4" path="res://src/resources/statemachine/statemachine.gd" id="3_wrxq6"]
-[ext_resource type="Script" uid="uid://rhp0572jv6t0" path="res://src/entities/player/ground_move.gd" id="4_0mfjg"]
+[ext_resource type="Script" uid="uid://dubru77xxdtnf" path="res://src/entities/player/states/ground_move.gd" id="4_n7e5a"]
 [ext_resource type="Script" uid="uid://bemn2ru3ukx0f" path="res://src/entities/player/states/air_move.gd" id="5_ketdh"]
-[ext_resource type="Script" uid="uid://4dgbhu27ysdj" path="res://src/entities/player/slide.gd" id="6_0mfjg"]
-[ext_resource type="Script" uid="uid://d1hqqm2c683e5" path="res://src/entities/player/wallrun.gd" id="7_4f0qm"]
+[ext_resource type="Script" uid="uid://4dgbhu27ysdj" path="res://src/entities/player/states/slide.gd" id="6_n7e5a"]
 [ext_resource type="Script" uid="uid://cy0nv0sgtjauh" path="res://src/entities/player/debug/floor_weight.gd" id="7_eb65w"]
+[ext_resource type="Script" uid="uid://dswccyrbqu6aw" path="res://src/entities/player/states/wallrun.gd" id="7_kc3pt"]
 [ext_resource type="Script" uid="uid://ul0nho3m1wij" path="res://src/entities/player/debug/floor_angle.gd" id="7_oih67"]
 [ext_resource type="Script" uid="uid://dv0d7bex0h5c" path="res://src/entities/player/debug/state.gd" id="9_n7e5a"]
 [ext_resource type="Script" uid="uid://b36wbu3mqa2fc" path="res://src/entities/player/debug/wish_vel_len.gd" id="10_kc3pt"]
@@ -34,35 +33,10 @@ _limits = [1.0, 2.0, 0.0, 180.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(23.66534, 1), 0.0, 0.0, 0, 0, Vector2(59.52191, 2), 0.0, 0.0, 0, 0, Vector2(101.11554, 2), 0.0, 0.0, 0, 0, Vector2(137.68924, 1), 0.0, 0.0, 0, 0, Vector2(180, 1), 0.0, 0.0, 0, 0]
 point_count = 6
 
-[sub_resource type="Curve" id="Curve_0mfjg"]
-_limits = [0.0, 1.0, 0.0, 0.6015936]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.6015936, 1), 2.6234794, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_oih67"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5298804, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="Curve" id="Curve_tk761"]
-_limits = [-1.0, 1.0, 0.0, 1.75]
-_data = [Vector2(0, 0.07438016), 0.0, 1.0776001, 0, 0, Vector2(0.21613546, 0.7685951), 0.0, 0.0, 0, 0, Vector2(0.47410357, 0.057851195), -0.85102737, -0.85102737, 0, 0, Vector2(1.248008, -0.28925622), 0.0, 0.0, 0, 0, Vector2(1.75, -0.8512398), 0.0, 0.0, 0, 0]
-point_count = 5
-
 [node name="Player" type="CharacterBody3D" unique_id=184546133]
 collision_layer = 2
 floor_snap_length = 0.5
 script = ExtResource("1_4m8ck")
-
-[node name="WallRaycasts" type="Node3D" parent="." unique_id=441095823]
-script = ExtResource("2_tk761")
-
-[node name="RightWallCast" type="RayCast3D" parent="WallRaycasts" unique_id=1876838202]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48475927, 0.61911273, 0)
-target_position = Vector3(0.1, 0, 0)
-
-[node name="LeftWallCast" type="RayCast3D" parent="WallRaycasts" unique_id=1096023632]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46162105, 0.61911273, 0)
-target_position = Vector3(-0.1, 0, 0)
 
 [node name="VelocityArrow" type="CSGBox3D" parent="." unique_id=104617444]
 visible = false
@@ -95,10 +69,8 @@ metadata/_custom_type_script = "uid://bv75bnv6c4ou4"
 
 [node name="GroundMove" type="Node" parent="StateMachine" unique_id=826006942 node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
-script = ExtResource("4_0mfjg")
+script = ExtResource("4_n7e5a")
 player = NodePath("../..")
-speed = 20.0
-deccel = 10.0
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="AirMove" type="Node" parent="StateMachine" unique_id=984507763 node_paths=PackedStringArray("player")]
@@ -111,21 +83,16 @@ deccel = 0.5
 air_strafe_curve = SubResource("Curve_ketdh")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
-[node name="Slide" type="Node" parent="StateMachine" unique_id=1656582667 node_paths=PackedStringArray("player")]
+[node name="Slide" type="Node" parent="StateMachine" unique_id=1656582667]
 unique_name_in_owner = true
-script = ExtResource("6_0mfjg")
-player = NodePath("../..")
-slide_drag_curve = SubResource("Curve_0mfjg")
-inclide_drag_curve = SubResource("Curve_oih67")
+script = ExtResource("6_n7e5a")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="SlideBoostCooldown" type="Timer" parent="StateMachine/Slide" unique_id=2134558373]
 one_shot = true
 
-[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364 node_paths=PackedStringArray("player")]
-script = ExtResource("7_4f0qm")
-player = NodePath("../..")
-wall_run_curve = SubResource("Curve_tk761")
+[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364]
+script = ExtResource("7_kc3pt")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=911802380]
@@ -175,3 +142,8 @@ script = ExtResource("7_eb65w")
 [node name="FloorAngle" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=489552541]
 layout_mode = 2
 script = ExtResource("7_oih67")
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=2084729048]
+unique_name_in_owner = true
+wait_time = 0.25
+one_shot = true

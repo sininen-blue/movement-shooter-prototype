@@ -12,7 +12,7 @@ extends State
 
 
 func enter() -> void:
-	player.highest_run = -9999
+	pass
 
 
 func exit() -> void:

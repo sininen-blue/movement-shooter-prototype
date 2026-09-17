@@ -26,13 +26,6 @@ func update(_delta: float) -> void:
 
 
 func physics_update(delta: float) -> void:
-	if wall_raycasts.is_colliding():
-		if player.highest_run == -9999:
-			state_machine.change_state(wallrun)
-		if player.global_position.y < player.highest_run:
-			state_machine.change_state(wallrun)
-	
-	
 	var horizontal_vec := Vector2(player.velocity.x, player.velocity.z)
 	var horizontal_wish := Vector2(player.wish_vel.x, player.wish_vel.z)
 	var diff := rad_to_deg(horizontal_vec.angle_to(horizontal_wish))
