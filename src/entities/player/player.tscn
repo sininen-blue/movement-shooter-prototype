@@ -6,11 +6,8 @@
 [ext_resource type="Script" uid="uid://dubru77xxdtnf" path="res://src/entities/player/states/ground_move.gd" id="4_n7e5a"]
 [ext_resource type="Script" uid="uid://bemn2ru3ukx0f" path="res://src/entities/player/states/air_move.gd" id="5_ketdh"]
 [ext_resource type="Script" uid="uid://4dgbhu27ysdj" path="res://src/entities/player/states/slide.gd" id="6_n7e5a"]
-[ext_resource type="Script" uid="uid://cy0nv0sgtjauh" path="res://src/entities/player/debug/floor_weight.gd" id="7_eb65w"]
 [ext_resource type="Script" uid="uid://dswccyrbqu6aw" path="res://src/entities/player/states/wallrun.gd" id="7_kc3pt"]
-[ext_resource type="Script" uid="uid://ul0nho3m1wij" path="res://src/entities/player/debug/floor_angle.gd" id="7_oih67"]
-[ext_resource type="Script" uid="uid://dv0d7bex0h5c" path="res://src/entities/player/debug/state.gd" id="9_n7e5a"]
-[ext_resource type="Script" uid="uid://b36wbu3mqa2fc" path="res://src/entities/player/debug/wish_vel_len.gd" id="10_kc3pt"]
+[ext_resource type="Script" uid="uid://dcxs6jkwmnqbg" path="res://src/debug/debug_property_label/debug_property_label.gd" id="8_n7e5a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oih67"]
 albedo_color = Color(1, 0.9253333, 0.36, 1)
@@ -28,10 +25,9 @@ uv1_triplanar = true
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vehwe"]
 height = 1.5
 
-[sub_resource type="Curve" id="Curve_ketdh"]
-_limits = [1.0, 2.0, 0.0, 180.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(23.66534, 1), 0.0, 0.0, 0, 0, Vector2(59.52191, 2), 0.0, 0.0, 0, 0, Vector2(101.11554, 2), 0.0, 0.0, 0, 0, Vector2(137.68924, 1), 0.0, 0.0, 0, 0, Vector2(180, 1), 0.0, 0.0, 0, 0]
-point_count = 6
+[sub_resource type="Curve" id="Curve_n7e5a"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14342627, 0), 0.0, 0.0, 0, 0, Vector2(0.30278882, 1), 0.0, 0.0, 0, 0, Vector2(0.45418325, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
 
 [node name="Player" type="CharacterBody3D" unique_id=184546133]
 collision_layer = 2
@@ -80,7 +76,7 @@ player = NodePath("../..")
 speed = 20.0
 accel = 1.0
 deccel = 0.5
-air_strafe_curve = SubResource("Curve_ketdh")
+air_strafe_curve = SubResource("Curve_n7e5a")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="Slide" type="Node" parent="StateMachine" unique_id=1656582667]
@@ -92,6 +88,7 @@ metadata/_custom_type_script = "uid://bob0m48d0nri1"
 one_shot = true
 
 [node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364]
+unique_name_in_owner = true
 script = ExtResource("7_kc3pt")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
@@ -112,38 +109,77 @@ anchor_bottom = 1.0
 offset_right = 1.0
 grow_vertical = 2
 
-[node name="State" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1292705133]
+[node name="CurrentState" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=606518422 node_paths=PackedStringArray("target")]
 layout_mode = 2
-script = ExtResource("9_n7e5a")
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../../StateMachine")
+property = "get_current_state_name"
+is_function = true
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="Speed" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1468799941]
+[node name="PreviousState" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=214540556 node_paths=PackedStringArray("target")]
 layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../../StateMachine")
+property = "get_previous_state_name"
+is_function = true
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="wishVelLen" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2033384440]
+[node name="WishVel" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1737506399 node_paths=PackedStringArray("target")]
 layout_mode = 2
-script = ExtResource("10_kc3pt")
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "wish_vel"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="Velocity" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=282036715]
+[node name="Vel" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1394615065 node_paths=PackedStringArray("target")]
 layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "velocity"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="WishVelocity" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1358963305]
+[node name="HorizontalSpeed" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=465140380 node_paths=PackedStringArray("target")]
 layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "get_horizontal_speed"
+is_function = true
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="DebugWishAngle" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2113465478]
+[node name="HorizontalWishSpeed" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1377890447 node_paths=PackedStringArray("target")]
 layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../..")
+property = "get_horizontal_wish_speed"
+is_function = true
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="AirStrafeMult" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1608176804]
+[node name="AirStrafeDiff" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=138193094 node_paths=PackedStringArray("target")]
 layout_mode = 2
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../../StateMachine/AirMove")
+property = "diff"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
-[node name="FloorWeight" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2067817879]
+[node name="AirStrafeSamplePoint" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=278765296 node_paths=PackedStringArray("target")]
 layout_mode = 2
-script = ExtResource("7_eb65w")
-
-[node name="FloorAngle" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=489552541]
-layout_mode = 2
-script = ExtResource("7_oih67")
+script = ExtResource("8_n7e5a")
+target = NodePath("../../../../StateMachine/AirMove")
+property = "sample_point"
+metadata/_custom_type_script = "uid://dcxs6jkwmnqbg"
 
 [node name="CoyoteTimer" type="Timer" parent="." unique_id=2084729048]
 unique_name_in_owner = true
 wait_time = 0.25
+one_shot = true
+
+[node name="CrouchQueueTimeout" type="Timer" parent="." unique_id=1676344605]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="JumpQueueTimeout" type="Timer" parent="." unique_id=702964490]
+unique_name_in_owner = true
+wait_time = 0.2
 one_shot = true

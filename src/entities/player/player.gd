@@ -3,9 +3,13 @@ extends CharacterBody3D
 
 
 signal player_jumped()
+signal player_crouched()
+signal player_uncrouched()
 
 
 @export var mouse_sens: float = 0.1
+
+@export var mass: float = 5.0
 
 
 var input_dir: Vector2
@@ -16,7 +20,12 @@ var can_jump: bool = false
 var has_jumped: bool = false
 var jump_queued: bool = false
 
+var can_crouch: bool = false
+var crouch_queued: bool = false
 
+
+@onready var crouch_queue_timeout: Timer = %CrouchQueueTimeout
+@onready var jump_queue_timeout: Timer = %JumpQueueTimeout
 @onready var coyote_timer: Timer = %CoyoteTimer
 @onready var head: Marker3D = $Head
 
@@ -35,16 +44,44 @@ func _physics_process(_delta: float) -> void:
 	input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	direction = (self.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
-	if is_on_floor() and is_on_wall_only():
+
+	# jump input
+	if is_on_floor():
 		coyote_timer.start()
-
-	can_jump = coyote_timer.is_stopped() == false
-
 	if Input.is_action_just_pressed("move_jump"):
-		jump_queued = true
-	
+		jump_queue_timeout.start()
+
+	can_jump = !coyote_timer.is_stopped()
+	jump_queued = !jump_queue_timeout.is_stopped()
+
 	if can_jump and jump_queued and !has_jumped:
+		jump_queue_timeout.stop()
+		coyote_timer.stop()
 		has_jumped = true
 		player_jumped.emit()
+	
 
+	# crouch input
+	if Input.is_action_just_pressed("move_crouch"):
+		crouch_queue_timeout.start()
+
+	can_crouch = is_on_floor()
+	crouch_queued = crouch_queue_timeout.is_stopped() == true 
+
+	if can_crouch and crouch_queued:
+		crouch_queue_timeout.stop()
+		player_crouched.emit()
+	
+	if Input.is_action_just_released("move_crouch"):
+		crouch_queue_timeout.stop()
+		player_uncrouched.emit()
+	
+	
 	move_and_slide()
+
+
+func get_horizontal_speed() -> float:
+	return Vector2(velocity.x, velocity.y).length()
+
+func get_horizontal_wish_speed() -> float:
+	return Vector2(wish_vel.x, wish_vel.y).length()
