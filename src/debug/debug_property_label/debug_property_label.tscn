@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d1e81k0lbeamu"]
+
+[ext_resource type="Script" uid="uid://dcxs6jkwmnqbg" path="res://src/debug/debug_property_label/debug_property_label.gd" id="1_mxqxv"]
+
+[node name="DebugPropertyLabel" type="Label" unique_id=527448462]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_mxqxv")
