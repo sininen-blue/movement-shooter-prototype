@@ -11,6 +11,12 @@ extends State
 @onready var slide: State = %Slide
 
 
+func _ready() -> void:
+	if player:
+		player.player_jumped.connect(_on_player_jumped)
+		player.player_crouched.connect(_on_player_crouched)
+
+
 func enter() -> void:
 	pass
 
@@ -30,14 +36,14 @@ func physics_update(delta: float) -> void:
 	player.wish_vel = player.direction * speed
 	
 	if player.direction.length() > 0:
-		player.velocity = player.wish_vel + (player.velocity - player.wish_vel) * exp(-accel * delta)
+		player.velocity = Utils.exp_decay(player.velocity, player.wish_vel, accel, delta)
 	else:
-		player.velocity = Vector3.ZERO + (player.velocity - Vector3.ZERO) * exp(-deccel * delta)
+		player.velocity = Utils.exp_decay(player.velocity, player.direction, deccel, delta)
 
 
-func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("move_jump"):
-		player.velocity.y += 20
-	
-	if event.is_action_pressed("slide"):
-		state_machine.change_state(slide)
+func _on_player_jumped() -> void:
+	state_machine.change_state(air_move)
+
+
+func _on_player_crouched() -> void:
+	pass

@@ -14,7 +14,6 @@ var current_drag: float = 0
 var current_floor_weight: float = 0
 var floor_normal: Vector3 = Vector3()
 
-@onready var timer: Timer = $Timer
 @onready var air_move: State = %AirMove
 @onready var ground_move: State = %GroundMove
 @onready var head: Marker3D = $"../../Head"

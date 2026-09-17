@@ -14,23 +14,16 @@ var wall_dir
 
 # TODO: need minimum distance from floor
 
-@onready var wall_raycasts: WallRaycasts = $"../../WallRaycasts"
 @onready var air_move: State = %AirMove
 @onready var ground_move: State = %GroundMove
 
 
 func enter() -> void:
-	wall_dir = wall_raycasts.get_colliding_direction()
 	if player.global_position.y > player.highest_run:
 		player.highest_run = player.global_position.y
 	
 	
 	time = 0
-	if wall_raycasts.is_colliding():
-		wall_normal = wall_raycasts.get_collision_normal()
-		
-
-	
 	wall_x = Vector3(wall_normal.x, 0, wall_normal.z).normalized()
 	var vel_x: Vector3 = Vector3(player.velocity.x, 0, player.velocity.z).normalized()
 	
@@ -40,7 +33,7 @@ func enter() -> void:
 
 
 func exit() -> void:
-	wall_raycasts.start_cooldown(wall_dir)
+	pass
 
 ## TODO: cooldown on each direction cast
 func update(delta: float) -> void:
@@ -48,11 +41,6 @@ func update(delta: float) -> void:
 	
 	if time > max_duration:
 		state_machine.change_state(air_move)
-	
-	if wall_raycasts.is_colliding() == false:
-		state_machine.change_state(air_move)
-	if player.is_on_floor():
-		state_machine.change_state(ground_move)
 
 
 func physics_update(delta: float) -> void:
