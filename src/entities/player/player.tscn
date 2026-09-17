@@ -1,0 +1,177 @@
+[gd_scene format=3 uid="uid://ngxad4n5idt7"]
+
+[ext_resource type="Script" uid="uid://ddhokcu0tayyf" path="res://src/entities/player/player.gd" id="1_4m8ck"]
+[ext_resource type="Script" uid="uid://drqmruismu7u3" path="res://src/entities/player/wall_raycasts.gd" id="2_tk761"]
+[ext_resource type="Texture2D" uid="uid://cerit24m01kmm" path="res://assets/prototype_textures/orange/texture_09.png" id="2_vt6n5"]
+[ext_resource type="Script" uid="uid://bv75bnv6c4ou4" path="res://src/resources/statemachine/statemachine.gd" id="3_wrxq6"]
+[ext_resource type="Script" uid="uid://rhp0572jv6t0" path="res://src/entities/player/ground_move.gd" id="4_0mfjg"]
+[ext_resource type="Script" uid="uid://bemn2ru3ukx0f" path="res://src/entities/player/states/air_move.gd" id="5_ketdh"]
+[ext_resource type="Script" uid="uid://4dgbhu27ysdj" path="res://src/entities/player/slide.gd" id="6_0mfjg"]
+[ext_resource type="Script" uid="uid://d1hqqm2c683e5" path="res://src/entities/player/wallrun.gd" id="7_4f0qm"]
+[ext_resource type="Script" uid="uid://cy0nv0sgtjauh" path="res://src/entities/player/debug/floor_weight.gd" id="7_eb65w"]
+[ext_resource type="Script" uid="uid://ul0nho3m1wij" path="res://src/entities/player/debug/floor_angle.gd" id="7_oih67"]
+[ext_resource type="Script" uid="uid://dv0d7bex0h5c" path="res://src/entities/player/debug/state.gd" id="9_n7e5a"]
+[ext_resource type="Script" uid="uid://b36wbu3mqa2fc" path="res://src/entities/player/debug/wish_vel_len.gd" id="10_kc3pt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oih67"]
+albedo_color = Color(1, 0.9253333, 0.36, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0mfjg"]
+albedo_color = Color(0.42400002, 1, 0.36, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vehwe"]
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coeo4"]
+albedo_texture = ExtResource("2_vt6n5")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vehwe"]
+height = 1.5
+
+[sub_resource type="Curve" id="Curve_ketdh"]
+_limits = [1.0, 2.0, 0.0, 180.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(23.66534, 1), 0.0, 0.0, 0, 0, Vector2(59.52191, 2), 0.0, 0.0, 0, 0, Vector2(101.11554, 2), 0.0, 0.0, 0, 0, Vector2(137.68924, 1), 0.0, 0.0, 0, 0, Vector2(180, 1), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="Curve" id="Curve_0mfjg"]
+_limits = [0.0, 1.0, 0.0, 0.6015936]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.6015936, 1), 2.6234794, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_oih67"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5298804, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_tk761"]
+_limits = [-1.0, 1.0, 0.0, 1.75]
+_data = [Vector2(0, 0.07438016), 0.0, 1.0776001, 0, 0, Vector2(0.21613546, 0.7685951), 0.0, 0.0, 0, 0, Vector2(0.47410357, 0.057851195), -0.85102737, -0.85102737, 0, 0, Vector2(1.248008, -0.28925622), 0.0, 0.0, 0, 0, Vector2(1.75, -0.8512398), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[node name="Player" type="CharacterBody3D" unique_id=184546133]
+collision_layer = 2
+floor_snap_length = 0.5
+script = ExtResource("1_4m8ck")
+
+[node name="WallRaycasts" type="Node3D" parent="." unique_id=441095823]
+script = ExtResource("2_tk761")
+
+[node name="RightWallCast" type="RayCast3D" parent="WallRaycasts" unique_id=1876838202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48475927, 0.61911273, 0)
+target_position = Vector3(0.1, 0, 0)
+
+[node name="LeftWallCast" type="RayCast3D" parent="WallRaycasts" unique_id=1096023632]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46162105, 0.61911273, 0)
+target_position = Vector3(-0.1, 0, 0)
+
+[node name="VelocityArrow" type="CSGBox3D" parent="." unique_id=104617444]
+visible = false
+size = Vector3(0.1, 0.1, 4)
+material = SubResource("StandardMaterial3D_oih67")
+
+[node name="WishVelocityArrow" type="CSGBox3D" parent="." unique_id=331412778]
+visible = false
+size = Vector3(0.1, 0.1, 4)
+material = SubResource("StandardMaterial3D_0mfjg")
+
+[node name="DebugMesh" type="CSGMesh3D" parent="." unique_id=856977825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578158, 0)
+mesh = SubResource("CapsuleMesh_vehwe")
+material = SubResource("StandardMaterial3D_coeo4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=620197638]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578158, 0)
+shape = SubResource("CapsuleShape3D_vehwe")
+
+[node name="Head" type="Marker3D" parent="." unique_id=162805946]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1632340605]
+
+[node name="StateMachine" type="Node" parent="." unique_id=2096001 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_wrxq6")
+initial_state = NodePath("GroundMove")
+metadata/_custom_type_script = "uid://bv75bnv6c4ou4"
+
+[node name="GroundMove" type="Node" parent="StateMachine" unique_id=826006942 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("4_0mfjg")
+player = NodePath("../..")
+speed = 20.0
+deccel = 10.0
+metadata/_custom_type_script = "uid://bob0m48d0nri1"
+
+[node name="AirMove" type="Node" parent="StateMachine" unique_id=984507763 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("5_ketdh")
+player = NodePath("../..")
+speed = 20.0
+accel = 1.0
+deccel = 0.5
+air_strafe_curve = SubResource("Curve_ketdh")
+metadata/_custom_type_script = "uid://bob0m48d0nri1"
+
+[node name="Slide" type="Node" parent="StateMachine" unique_id=1656582667 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("6_0mfjg")
+player = NodePath("../..")
+slide_drag_curve = SubResource("Curve_0mfjg")
+inclide_drag_curve = SubResource("Curve_oih67")
+metadata/_custom_type_script = "uid://bob0m48d0nri1"
+
+[node name="SlideBoostCooldown" type="Timer" parent="StateMachine/Slide" unique_id=2134558373]
+one_shot = true
+
+[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364 node_paths=PackedStringArray("player")]
+script = ExtResource("7_4f0qm")
+player = NodePath("../..")
+wall_run_curve = SubResource("Curve_tk761")
+metadata/_custom_type_script = "uid://bob0m48d0nri1"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=911802380]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=225551766]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=790877019]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_vertical = 2
+
+[node name="State" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1292705133]
+layout_mode = 2
+script = ExtResource("9_n7e5a")
+
+[node name="Speed" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1468799941]
+layout_mode = 2
+
+[node name="wishVelLen" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2033384440]
+layout_mode = 2
+script = ExtResource("10_kc3pt")
+
+[node name="Velocity" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=282036715]
+layout_mode = 2
+
+[node name="WishVelocity" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1358963305]
+layout_mode = 2
+
+[node name="DebugWishAngle" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2113465478]
+layout_mode = 2
+
+[node name="AirStrafeMult" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=1608176804]
+layout_mode = 2
+
+[node name="FloorWeight" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=2067817879]
+layout_mode = 2
+script = ExtResource("7_eb65w")
+
+[node name="FloorAngle" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=489552541]
+layout_mode = 2
+script = ExtResource("7_oih67")
