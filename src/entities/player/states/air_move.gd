@@ -24,7 +24,6 @@ var sample_point: float
 func enter() -> void:
 	if player.has_jumped:
 		player.has_jumped = false
-		player.velocity += (player.get_floor_normal() + Vector3.UP).normalized() * 20
 
 
 func exit() -> void:
@@ -57,6 +56,8 @@ func physics_update(delta: float) -> void:
 	player.wish_vel *= 1.0 + (air_strafe_curve.sample(abs(sample_point)) * air_strafe_mod)
 	
 	if player.direction.length() > 0:
-		player.velocity = Utils.exp_decay(player.velocity, player.wish_vel, accel, delta)
+		player.velocity.x = Utils.exp_decay(player.velocity.x, player.wish_vel.x, accel, delta)
+		player.velocity.z = Utils.exp_decay(player.velocity.z, player.wish_vel.z, accel, delta)
 	else:
-		player.velocity = Utils.exp_decay(player.velocity, player.direction, deccel, delta)
+		player.velocity.x = Utils.exp_decay(player.velocity.x, player.direction.x, deccel, delta)
+		player.velocity.z = Utils.exp_decay(player.velocity.z, player.wish_vel.z, accel, delta)

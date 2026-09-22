@@ -2,6 +2,7 @@ extends State
 
 @export var player: Player
 @export var wall_run_curve: Curve
+@export var jump = 30
 @export var speed = 40
 @export var accel = 2
 @export var duration = 1.75
@@ -17,7 +18,13 @@ var time: float = 0
 @onready var ground_move: State = %GroundMove
 
 
+func _ready() -> void:
+	player.player_wall_jumped.connect(_on_player_wall_jumped)
+
+
 func enter() -> void:
+	player.can_wall_jump = true
+
 	start_vel = player.velocity
 
 	if player.left_wall and player.can_wallrun_left:
@@ -30,6 +37,8 @@ func enter() -> void:
 
 
 func exit() -> void:
+	player.can_wall_jump = false
+
 	time = 0
 
 
@@ -57,3 +66,7 @@ func physics_update(delta: float) -> void:
 		time += 1 * delta
 	else:
 		state_machine.change_state(air_move)
+
+
+func _on_player_wall_jumped() -> void:
+	player.velocity += (Vector3.UP + player.get_wall_normal()/2).normalized() * jump

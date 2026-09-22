@@ -2,9 +2,11 @@ extends State
 
 
 @export var player: Player
+@export var jump: float = 15
 @export var speed: float = 10
 @export var accel: float = 5
 @export var deccel: float = 8
+@export var slide_threshold: float = 5
 
 
 @onready var air_move: State = %AirMove
@@ -15,6 +17,7 @@ func _ready() -> void:
 	if player:
 		player.player_jumped.connect(_on_player_jumped)
 		player.player_crouched.connect(_on_player_crouched)
+		player.player_uncrouched.connect(_on_player_uncrouched)
 
 
 func enter() -> void:
@@ -43,8 +46,16 @@ func physics_update(delta: float) -> void:
 
 
 func _on_player_jumped() -> void:
+	player.velocity += (player.get_floor_normal() + Vector3.UP).normalized() * jump
 	state_machine.change_state(air_move)
 
 
 func _on_player_crouched() -> void:
-	pass
+	player.head.position.y -= 0.5
+
+	if player.velocity.length() > slide_threshold:
+		state_machine.change_state(slide)
+
+
+func _on_player_uncrouched() -> void:
+	player.head.position.y += 0.5

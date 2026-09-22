@@ -3,6 +3,7 @@
 [ext_resource type="Material" uid="uid://btas380vsw0su" path="res://assets/materials/prototype/prototype_green.tres" id="1_avv2o"]
 [ext_resource type="Script" uid="uid://dxt3jn73se8tg" path="res://src/core/main.gd" id="1_ivtyw"]
 [ext_resource type="PackedScene" uid="uid://ngxad4n5idt7" path="res://src/entities/player/player.tscn" id="2_ukt3u"]
+[ext_resource type="Material" uid="uid://dqiopdw7n66k4" path="res://assets/materials/prototype/prototype_orange.tres" id="3_x62ka"]
 
 [sub_resource type="Gradient" id="Gradient_2uitn"]
 offsets = PackedFloat32Array(0, 0.8006757, 0.9898649, 1)
@@ -38,39 +39,49 @@ size = Vector3(100, 1, 100)
 material = ExtResource("1_avv2o")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="CSGCombiner3D" unique_id=2075735602]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61, -0.5, 2)
-size = Vector3(5, 5, 5)
-material = ExtResource("1_avv2o")
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 60.12941, 3, 7.982963)
+size = Vector3(11, 12, 9)
+material = ExtResource("3_x62ka")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1061726953]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 97.5, -0.5, 12.5)
-size = Vector3(10, 5, 12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.5, -0.5, 8.5)
+size = Vector3(12, 5, 12)
 material = ExtResource("1_avv2o")
 
+[node name="CSGBox3D17" type="CSGBox3D" parent="CSGCombiner3D" unique_id=929573530]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 103.60222, 1, 15.723543)
+size = Vector3(4, 14, 20)
+material = ExtResource("3_x62ka")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="CSGCombiner3D" unique_id=572791043]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, 103.35641, -5, -14.5)
+size = Vector3(42, 22, 12)
+material = ExtResource("3_x62ka")
+
 [node name="CSGBox3D12" type="CSGBox3D" parent="CSGCombiner3D" unique_id=425486454]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 129.5, -0.5, 15.5)
-size = Vector3(24, 5, 24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120.5, -9.5, 10)
+size = Vector3(22, 5, 27)
 material = ExtResource("1_avv2o")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="CSGCombiner3D" unique_id=433205812]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 298, -81.5, 15.5)
 size = Vector3(35, 5, 24)
-material = ExtResource("1_avv2o")
+material = ExtResource("3_x62ka")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="CSGCombiner3D" unique_id=562261018]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 338.5, -77.5, 15.5)
 size = Vector3(24, 5, 24)
-material = ExtResource("1_avv2o")
+material = ExtResource("3_x62ka")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="CSGCombiner3D" unique_id=11270101]
 transform = Transform3D(0.86602545, 0.49999997, 0, -0.49999997, 0.86602545, 0, 0, 0, 1, 188.9056, -26.905592, 15.5)
 size = Vector3(110, 5, 24)
-material = ExtResource("1_avv2o")
+material = ExtResource("3_x62ka")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="CSGCombiner3D" unique_id=1923230054]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.5, -0.5, -8)
-size = Vector3(79, 40, 5)
-material = ExtResource("1_avv2o")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77, -0.5, -8)
+size = Vector3(32, 40, 5)
+material = ExtResource("3_x62ka")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D" unique_id=736426706]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7.5, -1)

@@ -5,10 +5,10 @@ extends CharacterBody3D
 signal player_jumped()
 signal player_crouched()
 signal player_uncrouched()
+signal player_wall_jumped()
 
 
 @export var mouse_sens: float = 0.1
-
 @export var mass: float = 5.0
 
 
@@ -21,6 +21,7 @@ var has_jumped: bool = false
 var jump_queued: bool = false
 
 var can_crouch: bool = false
+var has_crouched: bool = false
 var crouch_queued: bool = false
 
 var left_wall: bool = false
@@ -28,7 +29,11 @@ var right_wall: bool = false
 var can_wallrun_left: bool = true
 var can_wallrun_right: bool = true
 
+var can_wall_jump: bool = false
+var wall_jump_queued: bool = false
 
+
+@onready var wall_jump_queue_timeout: Timer = %WallJumpQueueTimeout
 @onready var crouch_queue_timeout: Timer = %CrouchQueueTimeout
 @onready var jump_queue_timeout: Timer = %JumpQueueTimeout
 @onready var coyote_timer: Timer = %CoyoteTimer
@@ -71,15 +76,26 @@ func _physics_process(_delta: float) -> void:
 		crouch_queue_timeout.start()
 
 	can_crouch = is_on_floor()
-	crouch_queued = crouch_queue_timeout.is_stopped() == true 
+	crouch_queued = !crouch_queue_timeout.is_stopped()
 
 	if can_crouch and crouch_queued:
+		has_crouched = true
 		crouch_queue_timeout.stop()
 		player_crouched.emit()
 	
-	if Input.is_action_just_released("move_crouch"):
+	if has_crouched and Input.is_action_just_released("move_crouch"):
+		has_crouched = false
 		crouch_queue_timeout.stop()
 		player_uncrouched.emit()
+	
+	# walljump input
+	if Input.is_action_just_pressed("move_wall_jump") and can_wall_jump:
+		wall_jump_queue_timeout.start()
+	
+	wall_jump_queued = !wall_jump_queue_timeout.is_stopped()
+	if can_wall_jump and wall_jump_queued:
+		wall_jump_queue_timeout.stop()
+		player_wall_jumped.emit()
 	
 	
 	move_and_slide()
