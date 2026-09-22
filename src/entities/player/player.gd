@@ -38,16 +38,32 @@ var wall_jump_queued: bool = false
 @onready var jump_queue_timeout: Timer = %JumpQueueTimeout
 @onready var coyote_timer: Timer = %CoyoteTimer
 @onready var head: Marker3D = $Head
+@onready var parry_hitbox: Area3D = $ParryHitbox
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reload"):
 		get_tree().reload_current_scene()
+	
+	if event.is_action_pressed("parry"):
+		var slipper_hurtboxes: Array[Area3D] = parry_hitbox.get_overlapping_areas()
+		
+		if slipper_hurtboxes:
+			# fake hitstop
+			get_tree().paused = true
+			await get_tree().create_timer(0.25).timeout
+			get_tree().paused = false
+			
+			for slipper_hurtbox in slipper_hurtboxes:
+				var dir = self.global_position.direction_to(slipper_hurtbox.global_position)
+				slipper_hurtbox.get_parent().apply_central_impulse(dir * 50)
+			self.apply_impulse(head.global_transform.basis.z.normalized(), 40)
 
 
 	if event.is_action_released("throw"):
 		var slipper_instance = slipper.instantiate()
 		slipper_instance.direction = -head.global_transform.basis.z
+		slipper_instance.velocity_force = self.velocity.length()
 		get_parent().add_child(slipper_instance)
 		slipper_instance.global_position = head.global_position
 		
@@ -106,6 +122,10 @@ func _physics_process(_delta: float) -> void:
 	
 	
 	move_and_slide()
+
+
+func apply_impulse(target: Vector3, force: float) -> void:
+	velocity += target * force
 
 
 func update_wall_collisions() -> void:

@@ -68,7 +68,8 @@ func physics_update(delta: float) -> void:
 	player.wish_vel = player.direction
 
 	var new_velocity_len = Utils.exp_decay(player.velocity, Vector3.ZERO, current_drag, delta).length()
-	var new_vel_dir = Utils.exp_decay(player.velocity.normalized(), player.wish_vel.normalized(), accel, delta)
+	var slided_wish_vel = player.wish_vel.slide(player.get_floor_normal()).normalized()
+	var new_vel_dir = Utils.exp_decay(player.velocity.normalized(), slided_wish_vel, accel, delta)
 
 	player.velocity = new_vel_dir * new_velocity_len
 

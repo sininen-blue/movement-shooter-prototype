@@ -40,6 +40,10 @@ point_count = 3
 
 [sub_resource type="Curve" id="Curve_eb65w"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4f0qm"]
+radius = 1.9526367
+height = 3.9052734
+
 [node name="Player" type="CharacterBody3D" unique_id=184546133]
 collision_layer = 2
 floor_snap_length = 0.5
@@ -58,6 +62,7 @@ material = SubResource("StandardMaterial3D_0mfjg")
 
 [node name="DebugMesh" type="CSGMesh3D" parent="." unique_id=856977825]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578158, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_vehwe")
 material = SubResource("StandardMaterial3D_coeo4")
 
@@ -270,3 +275,11 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
+
+[node name="ParryHitbox" type="Area3D" parent="." unique_id=1513071292]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ParryHitbox" unique_id=1822715907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8037076, 0)
+shape = SubResource("CapsuleShape3D_4f0qm")
