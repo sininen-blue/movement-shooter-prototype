@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dham688ji6awv"]
+
+[ext_resource type="Script" uid="uid://4q5j6lkrlmgq" path="res://src/entities/slipper_rigidbody/slipper.gd" id="1_eqj5x"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eqj5x"]
+bounce = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vehwe"]
+
+[node name="Slipper" type="RigidBody3D" unique_id=1525835042]
+collision_layer = 0
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_eqj5x")
+continuous_cd = true
+script = ExtResource("1_eqj5x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1675202268]
+shape = SubResource("SphereShape3D_vehwe")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=702430567]
+size = Vector3(0.4, 0.1, 0.6)

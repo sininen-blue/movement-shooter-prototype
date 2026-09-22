@@ -7,7 +7,7 @@ signal player_crouched()
 signal player_uncrouched()
 signal player_wall_jumped()
 
-
+@export var slipper: PackedScene
 @export var mouse_sens: float = 0.1
 @export var mass: float = 5.0
 
@@ -43,6 +43,13 @@ var wall_jump_queued: bool = false
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reload"):
 		get_tree().reload_current_scene()
+
+
+	if event.is_action_released("throw"):
+		var slipper_instance = slipper.instantiate()
+		slipper_instance.direction = -head.global_transform.basis.z
+		get_parent().add_child(slipper_instance)
+		slipper_instance.global_position = head.global_position
 		
 	if event is InputEventMouseMotion:
 		rotation_degrees.y -= event.relative.x * mouse_sens

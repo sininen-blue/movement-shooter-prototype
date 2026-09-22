@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ngxad4n5idt7"]
 
 [ext_resource type="Script" uid="uid://ddhokcu0tayyf" path="res://src/entities/player/player.gd" id="1_4m8ck"]
+[ext_resource type="PackedScene" uid="uid://dham688ji6awv" path="res://src/entities/slipper_rigidbody/slipper.tscn" id="2_4f0qm"]
 [ext_resource type="Texture2D" uid="uid://cerit24m01kmm" path="res://assets/prototype_textures/orange/texture_09.png" id="2_vt6n5"]
 [ext_resource type="Script" uid="uid://bv75bnv6c4ou4" path="res://src/resources/statemachine/statemachine.gd" id="3_wrxq6"]
 [ext_resource type="Script" uid="uid://dubru77xxdtnf" path="res://src/entities/player/states/ground_move.gd" id="4_n7e5a"]
@@ -43,6 +44,7 @@ point_count = 3
 collision_layer = 2
 floor_snap_length = 0.5
 script = ExtResource("1_4m8ck")
+slipper = ExtResource("2_4f0qm")
 
 [node name="VelocityArrow" type="CSGBox3D" parent="." unique_id=104617444]
 visible = false

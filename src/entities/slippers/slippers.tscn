@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://r6j2doijjjxe"]
+
+[ext_resource type="Script" uid="uid://c2yqel1hcm1ie" path="res://src/entities/slippers/slippers.gd" id="1_djk60"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vehwe"]
+
+[node name="Slippers" type="CharacterBody3D" unique_id=291522889]
+collision_layer = 4
+script = ExtResource("1_djk60")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=382351215]
+shape = SubResource("SphereShape3D_vehwe")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1009783096]
+size = Vector3(0.3, 0.2, 0.6)
