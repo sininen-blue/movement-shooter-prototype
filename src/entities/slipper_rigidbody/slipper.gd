@@ -19,6 +19,9 @@ func _physics_process(_delta: float) -> void:
 	if self.get_contact_count() > 0:
 		self.has_hit_wall = true
 	
+	if self.linear_velocity.length() > 0 and self.linear_velocity.length() < 0.08:
+		self.queue_free.call_deferred()
+	
 
 func _set_has_hit_wall(new_val: bool) -> void:
 	has_hit_wall = new_val
