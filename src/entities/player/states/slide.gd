@@ -2,8 +2,8 @@ extends State
 
 @export var player: Player
 @export var max_slide_speed: float = 200
-@export var accel: float = 5
-@export var slide_speed: float = 4
+@export var accel: float = 5 # turn speed
+@export var slide_speed: float = 4 # constant speed boost on slide down
 
 @export var slide_boost: float = 10
 @export var slide_boost_cooldown: float = 2
