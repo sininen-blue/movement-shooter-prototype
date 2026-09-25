@@ -18,7 +18,6 @@ var sample_point: float
 
 
 @onready var ground_move: State = %GroundMove
-@onready var wallrun: State = %Wallrun
 
 
 func enter() -> void:
@@ -37,12 +36,6 @@ func update(_delta: float) -> void:
 func physics_update(delta: float) -> void:
 	if player.is_on_floor():
 		state_machine.change_state(ground_move)
-	if player.is_on_wall_only():
-		player.update_wall_collisions()
-		if player.left_wall and player.can_wallrun_left:
-			state_machine.change_state(wallrun)
-		if player.right_wall and player.can_wallrun_right:
-			state_machine.change_state(wallrun)
 
 	player.velocity += player.get_gravity() * player.mass * delta
 	player.wish_vel = player.direction * speed

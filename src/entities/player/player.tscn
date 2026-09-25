@@ -2,26 +2,12 @@
 
 [ext_resource type="Script" uid="uid://ddhokcu0tayyf" path="res://src/entities/player/player.gd" id="1_4m8ck"]
 [ext_resource type="PackedScene" uid="uid://dham688ji6awv" path="res://src/entities/slipper_rigidbody/slipper.tscn" id="2_4f0qm"]
-[ext_resource type="Texture2D" uid="uid://cerit24m01kmm" path="res://assets/prototype_textures/orange/texture_09.png" id="2_vt6n5"]
 [ext_resource type="Script" uid="uid://bv75bnv6c4ou4" path="res://src/resources/statemachine/statemachine.gd" id="3_wrxq6"]
 [ext_resource type="Script" uid="uid://dubru77xxdtnf" path="res://src/entities/player/states/ground_move.gd" id="4_n7e5a"]
 [ext_resource type="Script" uid="uid://bemn2ru3ukx0f" path="res://src/entities/player/states/air_move.gd" id="5_ketdh"]
 [ext_resource type="Script" uid="uid://4dgbhu27ysdj" path="res://src/entities/player/states/slide.gd" id="6_n7e5a"]
-[ext_resource type="Script" uid="uid://dswccyrbqu6aw" path="res://src/entities/player/states/wallrun.gd" id="7_kc3pt"]
+[ext_resource type="Script" uid="uid://ee61m71i130t" path="res://src/entities/player/wall_move.gd" id="7_eb65w"]
 [ext_resource type="Script" uid="uid://dcxs6jkwmnqbg" path="res://src/debug/debug_property_label/debug_property_label.gd" id="8_n7e5a"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oih67"]
-albedo_color = Color(1, 0.9253333, 0.36, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0mfjg"]
-albedo_color = Color(0.42400002, 1, 0.36, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_vehwe"]
-height = 1.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coeo4"]
-albedo_texture = ExtResource("2_vt6n5")
-uv1_triplanar = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vehwe"]
 height = 1.5
@@ -38,8 +24,6 @@ point_count = 2
 _data = [Vector2(0, 1), 0.0, -1.3829204, 0, 0, Vector2(0.35856572, 0.25619835), -1.1359705, -1.1359705, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Curve" id="Curve_eb65w"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4f0qm"]
 radius = 1.9526367
 height = 3.9052734
@@ -49,22 +33,6 @@ collision_layer = 2
 floor_snap_length = 0.5
 script = ExtResource("1_4m8ck")
 slipper = ExtResource("2_4f0qm")
-
-[node name="VelocityArrow" type="CSGBox3D" parent="." unique_id=104617444]
-visible = false
-size = Vector3(0.1, 0.1, 4)
-material = SubResource("StandardMaterial3D_oih67")
-
-[node name="WishVelocityArrow" type="CSGBox3D" parent="." unique_id=331412778]
-visible = false
-size = Vector3(0.1, 0.1, 4)
-material = SubResource("StandardMaterial3D_0mfjg")
-
-[node name="DebugMesh" type="CSGMesh3D" parent="." unique_id=856977825]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578158, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_vehwe")
-material = SubResource("StandardMaterial3D_coeo4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=620197638]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7578158, 0)
@@ -108,12 +76,8 @@ metadata/_custom_type_script = "uid://bob0m48d0nri1"
 [node name="SlideBoostCooldown" type="Timer" parent="StateMachine/Slide" unique_id=2134558373]
 one_shot = true
 
-[node name="Wallrun" type="Node" parent="StateMachine" unique_id=2086793364 node_paths=PackedStringArray("player")]
-unique_name_in_owner = true
-script = ExtResource("7_kc3pt")
-player = NodePath("../..")
-wall_run_curve = SubResource("Curve_eb65w")
-jump = 20
+[node name="WallMove" type="Node" parent="StateMachine" unique_id=1078373627]
+script = ExtResource("7_eb65w")
 metadata/_custom_type_script = "uid://bob0m48d0nri1"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=911802380]
